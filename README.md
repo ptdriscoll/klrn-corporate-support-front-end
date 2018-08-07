@@ -6,6 +6,10 @@ This is the front-end of a microsite targeting sponsors interested in connecting
 
 `npm run build` copies the src folder to the dist folder, and concatenates and compresses the CSS and JavaScript files.    
 
+### Full site
+
+- **GitHub** - https://github.com/ptdriscoll/klrn-corporate-support 
+
 ### Plugins 
 
 This site uses several JavaScript plugins to load YouTube playlists, animate navigation scrolling and add parallax effects.
