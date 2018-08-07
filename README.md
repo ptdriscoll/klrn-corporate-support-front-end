@@ -4,7 +4,7 @@ This is the front-end of a microsite targeting sponsors interested in connecting
 
 `npm start` launches scaffolding, in a Windows environment, using an npm workflow and Boostrap 4. Dependencies include JQuery and Popper.js. 
 
-`npm run build` concatenates and compresses the CSS and JavaScript files and copies all assets into a dist folder.    
+`npm run build` copies the src folder to the dist folder, and concatenates and compresses the CSS and JavaScript files.    
 
 ### Plugins 
 
