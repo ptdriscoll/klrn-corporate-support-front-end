@@ -1,0 +1,54 @@
+{
+  "name": "KLRN",
+  "version": "1.0.0",
+  "description": "KLRN Corporate Support Microsite",
+  "main": "index.js",
+  "scripts": {
+    "============DEV SETUP": "============",
+    "start": "npm-run-all --parallel dev:*",
+    "dev:concat-js": "browserify src/assets/js/custom.js > src/assets/js/scripts.js",
+    "dev:server": "live-server src --port=8080 --browser=CHROME",
+    
+    "============BUILD SETUP": "============",
+    "build": "npm-run-all prod:*",
+    "prod:setup": "mkdirp dist/assets/css dist/assets/img dist/assets/js",
+    "prod:pages": "mkdirp dist/downloads dist/examples dist/faq", 
+    
+    "============COPY TO DIST": "============",
+    "prod:copy-images": "copy src\\assets\\img\\* dist\\assets\\img\\",
+    "prod:copy-downloads": "copy src\\downloads\\* dist\\downloads\\",
+    "prod:copy-home": "copy src\\index.html dist\\index.html",
+    "prod:copy-faq": "copy src\\faq\\index.html dist\\faq\\index.html",    
+    "prod:copy-examples": "copy src\\examples\\index.html dist\\examples\\index.html",
+    "prod:copy-css": "type src\\assets\\css\\bootstrap\\bootstrap.css src\\assets\\css\\custom.css > dist\\assets\\css\\styles.css",
+    
+    "============PROCESS CSS": "============",    
+    "prod:css-prefix": "postcss dist\\assets\\css\\styles.css -u autoprefixer -b \">1% in US, ie>=10\" -o dist\\assets\\css\\styles.css",    
+    "prod:css-clean": "cleancss -o dist\\assets\\css\\styles.css dist\\assets\\css\\styles.css",
+    
+    "============PROCESS JS": "============",
+    "prod:uglify-js": "uglifyjs src/assets/js/scripts.js --compress --mangle --output dist/assets/js/scripts.js",
+    "prod:server": "live-server dist --port=8088 --browser=CHROME",
+    "test": "echo \"No test specified\" && npm run lint && exit 0",
+    "lint": "jshint src/assets/js/custom.js || exit 0"
+  },
+  "author": "KLRN",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^6.5.3",
+    "browserify": "^13.1.1",
+    "clean-css": "^3.4.21",
+    "jshint": "^2.9.4",
+    "live-server": "^1.1.0",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^3.1.1",
+    "postcss-cli": "^2.6.0",
+    "uglify-js": "^3.3.10",
+    "uncss": "^0.14.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
+  }
+}
