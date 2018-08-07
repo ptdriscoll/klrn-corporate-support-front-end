@@ -8,7 +8,7 @@ This is the front-end of a microsite targeting sponsors interested in connecting
 
 ### Full site
 
-- **GitHub** - https://github.com/ptdriscoll/klrn-corporate-support 
+- **GitHub:** https://github.com/ptdriscoll/klrn-corporate-support 
 
 ### Plugins 
 
