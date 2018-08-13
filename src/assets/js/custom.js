@@ -77,6 +77,18 @@ require('./plugins/youtube-playlist-parser');
     $(window).scroll();
   });
   
+  //fade in body so loading doesn't look so jerky
+  $('body').fadeTo(250, 1, function(){
+      document.querySelector('html').style.backgroundColor = '#f8fbfc';
+  });  
+  
+  //add click event to close mobile menu when Become a Sponsor is clicked
+  var becomeSponsor = document.querySelector('#become_sponsor');  
+  var navbar = document.querySelector('#navbar');
+  if (becomeSponsor && navbar) becomeSponsor.addEventListener('click', function() {
+    navbar.classList.remove('show');    
+  });  
+  
   //add click event to validate form and show loading image
   var submit_loader = document.querySelector('#submit_loader');
   var contact_us = document.querySelector('#contact_us');
@@ -86,12 +98,6 @@ require('./plugins/youtube-playlist-parser');
     if (submit_loader) submit_loader.classList.remove('d-none');   
     location.hash = '#contact_us';    
   });
-  
-  //fade in body so loading doesn't look so jerky
-  $('body').fadeTo(250, 1, function(){
-      document.querySelector('html').style.backgroundColor = '#f8fbfc';
-  });
-  
 }());
 
 //add modules to klrn object  
