@@ -180,8 +180,6 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
 /* Carousel ========================================== */
 
 #audienceCarousel, #sponsorCarousel { margin-bottom: 2.5rem; }
-.examplesCarousel .carousel-item { margin-left: 0; }
-.carousel-item { margin: 0 1rem; }
 
 .carousel-caption {
   position: relative;
@@ -193,8 +191,8 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
 
 .carousel-indicators li { background-color: #6cc8d3; }
 .carousel-indicators li.active { background-color: #0b3259; }
-.carousel img { max-width: 600px; }
-.carousel-control-prev, .carousel-control-next { bottom: 2.5rem; }
+.carousel img { width: 100%; max-width: 600px; }
+.carousel-control-prev, .carousel-control-next { top: 2rem; bottom: 2.5rem; }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
   width: 30px;

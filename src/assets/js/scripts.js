@@ -17080,7 +17080,7 @@ klrn.loadVideo = function(videoID) {
     var iframe = document.createElement('iframe');
     var videoLink = 'https://www.youtube.com/embed/' 
         + videoID 
-        + '/?rel=0&enablejsapi=1&version=3&autohide=1&showinfo=0&html5=1';
+        + '/?rel=0&enablejsapi=1&version=3&autohide=1&showinfo=0&html5=1&playsinline=1';
     
     iframe.className = 'youtube-player';
     iframe.id = videoID;
@@ -17089,6 +17089,7 @@ klrn.loadVideo = function(videoID) {
     iframe.setAttribute('marginwidth', '0');
     iframe.setAttribute('marginheight', '0');
     iframe.setAttribute('scrolling', 'no');
+    iframe.setAttribute('webkit-playsinline', '');
     iframe.src = videoLink;
     
     //empty video wrapper div and add video
