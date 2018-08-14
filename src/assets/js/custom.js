@@ -16,7 +16,7 @@ require('./plugins/youtube-playlist-parser');
 (function () {
   //get page
   var page = location.pathname;
-  if (page) page = page.replace('corporate-support/', '');
+  if (page) page = page.replace('sponsor/', '');
   if (page) page = page.split('/')[1];
   if (!page) page = 'home'; 
   else page = page.toLowerCase();  

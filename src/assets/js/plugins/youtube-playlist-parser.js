@@ -15,7 +15,7 @@ klrn.youtubeVideos = {
     if (window.ga && ga.create) {
       ga('send', {
         hitType: 'event',
-        eventCategory: 'Corporate Support Videos',
+        eventCategory: 'Become a Sponsor Videos',
         eventAction: 'Plays',
         eventLabel: e.target.getVideoData()['title']
       });
