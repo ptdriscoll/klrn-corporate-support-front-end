@@ -9,9 +9,10 @@ klrn.youtubeVideos = {
 			}
 		});
     this.getObjects.push(video);
+    return video;
   },
   'onPlayerReady': function(e) {
-    e.target.playVideo()
+    //e.target.playVideo()
     if (window.ga && ga.create) {
       ga('send', {
         hitType: 'event',
@@ -59,6 +60,21 @@ klrn.loadVideo = function(videoID) {
         + videoID 
         + '/?rel=0&enablejsapi=1&version=3&autohide=1&showinfo=0&html5=1&playsinline=1';
     
+    //for playing video from within click event when video is ready 
+    //to get around IOS blocking autoplay after loading video    
+    var videoObject, attempts = 0;
+    var playWhenReady = function(video) {
+      if (attempts === 60) return;
+      if (video && typeof video.playVideo === 'function') {
+        video.playVideo();
+      }
+      else {
+        attempts += 1;
+        setTimeout(function(){playWhenReady(video)}, 50);
+      }      
+    }    
+    
+    //load iframe
     iframe.className = 'youtube-player';
     iframe.id = videoID;
     iframe.setAttribute('frameborder', '0');
@@ -74,7 +90,8 @@ klrn.loadVideo = function(videoID) {
     target.appendChild(iframe);
     
     //create video object to manage plays, pauses and event tracking
-    klrn.youtubeVideos.setObject(videoID);    
+    videoObject = klrn.youtubeVideos.setObject(videoID); 
+    playWhenReady(videoObject);    
   }
 }
 
