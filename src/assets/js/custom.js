@@ -11,6 +11,8 @@ require('./plugins/in-view');
 require('./plugins/animate-scrolling');
 require('./plugins/youtube-playlist-loader');
 require('./plugins/youtube-playlist-parser');
+require('./plugins/csv-parser');
+require('./plugins/sponsors-parser');
 
 //set up plugins and manage page events
 (function () {
@@ -41,7 +43,12 @@ require('./plugins/youtube-playlist-parser');
     ];
     
     klrn.loadYoutubePlaylists(youtubePlaylists);  
-  }    
+  }
+  
+  //load and parse sponsors.csv to set cards on Our Sponsor page
+  if (page == 'our-sponsors') { 
+    klrn.loadSponsors();  
+  }   
 
   //remove active classes in nav when needed
   var removeActive = function () {

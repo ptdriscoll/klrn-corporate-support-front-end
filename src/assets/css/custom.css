@@ -128,12 +128,16 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
 
 .blockquote { padding: 1rem; font-size: 1rem; margin: 1rem 0 1.5rem; }
 .blockquote img.quote { width: 3rem; margin-right: 1rem; margin-bottom: 1rem; }
-.blockquote img.logo_inline { display: none; width: 6rem; }
-.blockquote img.logo_centered { width: 4.5rem; margin-top: 1rem; }
+.blockquote img.logo_inline { display: none; width: 12rem; }
+.blockquote img.logo_centered { 
+  position: relative;
+  left: 1.75rem;
+  width: 11rem; margin-top: 1.7rem;  
+}
 
 @media (min-width: 425px) {
   .blockquote { padding: 2rem; font-size: 1.25rem; } 
-  .blockquote img.logo_centered { width: 5rem; margin-top: 1.25rem; }  
+  .blockquote img.logo_centered { width: 12rem; margin-top: 2rem; }  
 }
 
 @media (min-width: 576px) {
@@ -141,10 +145,10 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
   .blockquote img.quote { width: 3.5rem; float: left; }
   .blockquote img.logo_inline { 
     position: relative;
-    bottom: 15px;
+    bottom: 6px;
     display: inline;
     float: right;
-    margin-left: 1.25rem;
+    margin-left: 1.35rem;
   }
   .blockquote img.logo_centered { display: none; }  
 }
@@ -249,6 +253,7 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
   font-size: 0.6rem;
   color: #eee;
   text-align: left;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
 }
 
 @media (min-width: 375px) {
@@ -289,6 +294,28 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
 }
 
 .embed_wrapper button:hover > svg path:first-child { fill: #f00; cursor: pointer; }
+
+/* Sponsor cards ========================================== */
+
+.card-deck { flex-direction: row; margin: 0 -5px; }
+.card-deck .card { margin: 0; }
+.card-deck .col-6 { padding: 5px; }
+
+.card-deck .col-sm-3 { 
+  padding: 10px; margin-left: 0; margin-right: 0;
+}
+
+.card-deck .card { 
+  padding: 10px; margin-left: 0; margin-right: 0;
+}
+
+.card-deck .card a img:hover { opacity: 0.75; }
+.card-deck .card img { width: 100%; }
+.card-deck .card p { 
+  font-size: 0.8rem; margin: 0.5rem 0; color: #777;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+}
+.card-deck .card p span { font-style: italic; color: #6cc8d3; text-transform: capitalize; }
 
 
 /* Footer ========================================== */

@@ -16840,6 +16840,8 @@ require('./plugins/in-view');
 require('./plugins/animate-scrolling');
 require('./plugins/youtube-playlist-loader');
 require('./plugins/youtube-playlist-parser');
+require('./plugins/csv-parser');
+require('./plugins/sponsors-parser');
 
 //set up plugins and manage page events
 (function () {
@@ -16870,7 +16872,12 @@ require('./plugins/youtube-playlist-parser');
     ];
     
     klrn.loadYoutubePlaylists(youtubePlaylists);  
-  }    
+  }
+  
+  //load and parse sponsors.csv to set cards on Our Sponsor page
+  if (page == 'our-sponsors') { 
+    klrn.loadSponsors();  
+  }   
 
   //remove active classes in nav when needed
   var removeActive = function () {
@@ -16937,7 +16944,7 @@ require('./plugins/youtube-playlist-parser');
   
 }(klrn)); //end adding modules to klrn object 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./plugins/animate-scrolling":5,"./plugins/in-view":6,"./plugins/parallax":7,"./plugins/youtube-playlist-loader":8,"./plugins/youtube-playlist-parser":9,"bootstrap/dist/js/bootstrap":1,"jquery/dist/jquery":2,"popper.js/dist/umd/popper":3}],5:[function(require,module,exports){
+},{"./plugins/animate-scrolling":5,"./plugins/csv-parser":6,"./plugins/in-view":7,"./plugins/parallax":8,"./plugins/sponsors-parser":9,"./plugins/youtube-playlist-loader":10,"./plugins/youtube-playlist-parser":11,"bootstrap/dist/js/bootstrap":1,"jquery/dist/jquery":2,"popper.js/dist/umd/popper":3}],5:[function(require,module,exports){
 //animate scrolling for anchor links that also have scroll class
 (function () {
   //height of header
@@ -16961,6 +16968,79 @@ require('./plugins/youtube-playlist-parser');
     }) //on click
 }());
 },{}],6:[function(require,module,exports){
+//basic csv parser
+//handles multi-comma fields, removes quotes around those fields, strips leading and trailing spaces 
+//optionally set json to true to return json, else false or empty to return object
+klrn.parseCSV = function(csv, json) {
+  var lines = csv.split(('\r\n' || '\r' || '\n'));
+  var result = [];
+  var headers = lines[0].split(',');
+  var obj = {};
+  var currentline;
+  var quotes;
+  var badBreaks = [];
+  var fromToLength;
+  var buildString = '';
+
+  var leadingSpace = /^\s+/;
+  var trailingSpace = /\s+$/;
+  var doubleSmartQuote = /[\u201C\u201D]/g;
+  var singleSmartQuote = /[\u2018\u2019]/g;
+  var emDash = /[\u2013\u2014]/g;
+  var ellipsesRegEx = /[\u2026]/g;
+
+  for (var i = 1; i < lines.length - 1; i++) {
+    obj = {};
+    currentline = lines[i].split(',');
+
+    for (var j = currentline.length - 1; j > -1; j--) {
+
+      //find all unescaped quotes on each line
+      quotes = currentline[j].match(/"/g);
+
+      //if there are an odd number of quotes, push line index into badBreaks
+      if ((quotes ? quotes.length : 0) % 2 == 1) badBreaks.push(j);
+
+      //trim escaping quotes for quotes, added around quotes as well as line
+      if (currentline[j].slice(0,1) === '"' && currentline[j].slice(-1) === '"'
+          && (currentline[j].slice(0,2) !== '""' || currentline[j].slice(-2) !== '""')) {
+        currentline[j] = currentline[j].slice(1,-1);
+      }
+      if (currentline[j].match(/""/)) {
+        currentline[j] = currentline[j].replace(/""/g, '"');
+      }
+    }
+
+    //starting at bottom, merge currentline back, skipping over every other badBreaks index
+    for (var j = 0, length = badBreaks.length; j < length; j = j + 2) {
+
+      //get index pairs with starting and end quotes, and everything inbetween, and merge all into string
+      fromToLength = (badBreaks[j] - badBreaks[j + 1]);
+      for (var k = fromToLength; k > -1; k--) {
+        buildString += currentline[badBreaks[j] - k] + ',';
+      }
+
+      //now splice each set of merged indexes, each as one index, back into whole array  
+      currentline.splice(badBreaks[j] - fromToLength, fromToLength + 1, buildString.slice(1, -2));
+      buildString = '';
+    }
+    badBreaks = [];
+
+    //line up headers with each data row
+    //and trim leading and trailing white spaces, and replace smart quotes, emdashes and ellipses 
+    for (var j = 0; j < headers.length; j++) {
+      obj[headers[j].replace(leadingSpace, '').replace(trailingSpace, '')] =
+      currentline[j].replace(leadingSpace, '').replace(trailingSpace, '')
+              .replace(doubleSmartQuote, '"').replace(singleSmartQuote, "'")
+              .replace(emDash, '-').replace(ellipsesRegEx, '...');
+    }
+    result.push(obj);
+  }
+
+  //return result
+  return json ? JSON.stringify(result) : result;
+}
+},{}],7:[function(require,module,exports){
 //check for element in viewport
 //from https://medium.com/talk-like/detecting-if-an-element-is-in-the-viewport-jquery-a6a4405a3ea2
 $.fn.inView = function() {
@@ -16970,7 +17050,7 @@ $.fn.inView = function() {
   var viewportBottom = viewportTop + $(window).height();
   return elementBottom > viewportTop && elementTop < viewportBottom;
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 //add module for parallax scrolling
 //tutorial: http://code.tutsplus.com/tutorials/a-simple-parallax-scrolling-technique--net-27641
 $(function() {        
@@ -16995,7 +17075,79 @@ $(function() {
     })); //end window scroll
   });	
 }); 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
+//parse sponsors.csv file to create cards on Our Sponsors page
+klrn.parseSponsorsCSV = function(csvData) {
+  if (!csvData) return;  
+  
+  var data = klrn.parseCSV(csvData); 
+  var target = document.querySelector('#sponsor_cards'); 
+  var fragment = document.createDocumentFragment() //add everything to this, then make 1 insertion
+  var i, mainDiv, innerDiv, imgLink, img, graph;
+  
+  if (!target) return;
+  //console.log(data);
+  
+  for (i=0;i<data.length;i++) {
+    if (data[i].SPONSOR === '' || data[i].SPONSOR_TYPE === '' || 
+        data[i].PROGRAMMING === '' || data[i].LOGO === '') {
+      continue;
+    }
+    
+    //create elements
+    mainDiv = document.createElement('div');
+    mainDiv.className = 'col-lg-2 col-md-3 col-sm-4 col-6';
+    
+    innerDiv = document.createElement('div');
+    innerDiv.className = 'card box-shadow';
+    
+    if (data[i].LINK !== '') {
+      imgLink = document.createElement('a'); 
+      imgLink.href = data[i].LINK;
+      imgLink.setAttribute('target', '_blank');
+    }
+    
+    img = document.createElement('img');
+    img.className = 'card-img-top';
+    img.src = '../assets/img/sponsors/' + data[i].LOGO;
+    img.alt = data[i].SPONSOR;
+    
+    graph = document.createElement('p');
+    graph.innerHTML = '<span>' + data[i].SPONSOR_TYPE + '</span>'
+                      + '<br>' + data[i].PROGRAMMING; 
+    
+    //nest elements       
+    mainDiv.appendChild(innerDiv);
+    if (data[i].LINK !== '') {
+      innerDiv.appendChild(imgLink);
+      imgLink.appendChild(img);      
+    }
+    else {    
+      innerDiv.appendChild(img);   
+    }      
+    innerDiv.appendChild(graph);
+    
+    //attach to dom fragment that will be inserted
+    fragment.appendChild(mainDiv);
+  }
+
+  //insert all cards 
+  target.appendChild(fragment);     
+}
+
+klrn.loadSponsors = function() {
+  var request = new XMLHttpRequest();
+  if (!request) return;
+  
+  request.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      klrn.parseSponsorsCSV(this.responseText);
+    }
+  }  
+  request.open('GET', '../data/sponsors.csv', true);
+  request.send();    
+}
+},{}],10:[function(require,module,exports){
 //takes [playlistID, carouselID] item or or array of such items
 //and adds script links and callbacks to grab playlists from YouTube
 klrn.loadYoutubePlaylists = function(lists) {  
@@ -17020,7 +17172,7 @@ klrn.loadYoutubePlaylists = function(lists) {
     body.appendChild(elem); 
   }
 }
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 //object for storing and managing YouTube video objects
 klrn.youtubeVideos = {
   'getObjects': [],
@@ -17163,7 +17315,8 @@ klrn.parseYoutubePlaylist = function(data, carousel) {
     if (!data.items[i].snippet.thumbnails) continue;
     imgUrl = data.items[i].snippet.thumbnails.high.url;
     videoID = data.items[i].snippet.resourceId.videoId;
-    videoTitle = trimTitle(data.items[i].snippet.title);
+    //videoTitle = trimTitle(data.items[i].snippet.title);
+    videoTitle = data.items[i].snippet.title;
     
     //carousel item container
     div1 = document.createElement('div');

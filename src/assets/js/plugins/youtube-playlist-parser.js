@@ -140,7 +140,8 @@ klrn.parseYoutubePlaylist = function(data, carousel) {
     if (!data.items[i].snippet.thumbnails) continue;
     imgUrl = data.items[i].snippet.thumbnails.high.url;
     videoID = data.items[i].snippet.resourceId.videoId;
-    videoTitle = trimTitle(data.items[i].snippet.title);
+    //videoTitle = trimTitle(data.items[i].snippet.title);
+    videoTitle = data.items[i].snippet.title;
     
     //carousel item container
     div1 = document.createElement('div');
