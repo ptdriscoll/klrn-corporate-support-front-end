@@ -12,7 +12,7 @@ klrn.youtubeVideos = {
     return video;
   },
   'onPlayerReady': function(e) {
-    //e.target.playVideo()
+    //e.target.playVideo();
     if (window.ga && ga.create) {
       ga('send', {
         hitType: 'event',
@@ -50,9 +50,11 @@ klrn.loadVideo = function(videoID) {
     //remove click event since it's only needed once
     e.target.removeEventListener(e.type, arguments.callee);
 
-    //make sure target is set to embed_wrapper even if nested arrow is clicked     
+    //make sure target is set to embed_wrapper even if a nested element is clicked     
     var target = e.target;
     if (e.target.tagName.toLowerCase() === 'path') target = e.target.parentNode.parentNode.parentNode;
+    else if (e.target.tagName.toLowerCase() === 'svg') target = e.target.parentNode.parentNode;
+    else if (e.target.tagName.toLowerCase() === 'button') target = e.target.parentNode;
 
     //add iframe  
     var iframe = document.createElement('iframe');
@@ -83,6 +85,7 @@ klrn.loadVideo = function(videoID) {
     iframe.setAttribute('marginheight', '0');
     iframe.setAttribute('scrolling', 'no');
     iframe.setAttribute('webkit-playsinline', '');
+    iframe.setAttribute('allow', 'autoplay'); //chrome requires to play on load from a click    
     iframe.src = videoLink;
     
     //empty video wrapper div and add video
