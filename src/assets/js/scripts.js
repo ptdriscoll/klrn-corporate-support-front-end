@@ -17230,6 +17230,7 @@ klrn.loadVideo = function(videoID) {
     if (e.target.tagName.toLowerCase() === 'path') target = e.target.parentNode.parentNode.parentNode;
     else if (e.target.tagName.toLowerCase() === 'svg') target = e.target.parentNode.parentNode;
     else if (e.target.tagName.toLowerCase() === 'button') target = e.target.parentNode;
+    else if (e.target.className.toLowerCase() === 'video_title') target = e.target.parentNode;
 
     //add iframe  
     var iframe = document.createElement('iframe');

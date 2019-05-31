@@ -293,7 +293,8 @@ h3 { font-size: 1.5rem; color: rgba(0, 0, 0, 0.65); }
   background-color: transparent;   
 }
 
-.embed_wrapper button:hover > svg path:first-child { fill: #f00; cursor: pointer; }
+.embed_wrapper:hover { cursor: pointer; }
+.embed_wrapper:hover > button > svg path:first-child { fill: #f00; }
 
 /* Sponsor cards ========================================== */
 
