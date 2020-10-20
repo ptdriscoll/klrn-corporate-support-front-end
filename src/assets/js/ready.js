@@ -1,19 +1,3 @@
-window.klrn = window.klrn || {};
-
-var jquery = require('jquery/dist/jquery');
-global.$ = global.jQuery = jquery;
-
-require('jquery/dist/jquery');
-require('popper.js/dist/umd/popper');
-require('bootstrap/dist/js/bootstrap');
-require('./plugins/parallax');
-require('./plugins/in-view');
-require('./plugins/animate-scrolling');
-require('./plugins/youtube-playlist-loader');
-require('./plugins/youtube-playlist-parser');
-require('./plugins/csv-parser');
-require('./plugins/sponsors-parser');
-
 //set up plugins and manage page events
 (function () {
   //get page
@@ -60,7 +44,7 @@ require('./plugins/sponsors-parser');
 
     //stop and start carousels when in view or not
     $('.carousel').each(function() {
-      if ($(this).inView()) {
+      if ($(this).length && $(this).inView()) {
           $(this).carousel('cycle');
       }
       else {
@@ -69,7 +53,7 @@ require('./plugins/sponsors-parser');
     }); 
 
     //highlight navigation
-    if ($('#footer').inView()) {
+    if ($('#footer').length && $('#footer').inView()) {
       removeActive();
       $('a[href$="#footer"]').addClass('active');
     } 

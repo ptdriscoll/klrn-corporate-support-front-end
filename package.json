@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "description": "KLRN Corporate Support Microsite",
   "main": "index.js",
-  "scripts": {
-    "============DEV SETUP": "============",
-    "start": "npm-run-all --parallel dev:*",
-    "dev:concat-js": "browserify src/assets/js/custom.js > src/assets/js/scripts.js",
+  "scripts": {    
+    "============DEV SETUP - npm start": "============",
+    "start": "npm-run-all dev:*",
+    "dev:concat-js": "browserify src/assets/js/libs/get-load.js > src/assets/js/libs/load.js",
     "dev:server": "live-server src --port=8080 --browser=CHROME",
-    "============BUILD SETUP": "============",
+	
+    "============BUILD SETUP - npm run build": "============",
     "build": "npm-run-all prod:*",
-    "prod:setup": "mkdirp dist/assets/css dist/assets/img dist/assets/img/sponsors dist/assets/js",
+    "prod:setup": "mkdirp dist/assets/css dist/assets/img dist/assets/img/sponsors dist/assets/js dist/assets/js/plugins",
     "prod:pages": "mkdirp dist/downloads dist/examples dist/faq dist/our-sponsors",
-    "prod:other": "mkdirp dist/data",
+    "prod:other": "mkdirp dist/data dist/includes",
+	
     "============COPY TO DIST": "============",
     "prod:copy-images": "copy src\\assets\\img\\* dist\\assets\\img\\",
     "prod:copy-images-sponsors": "copy src\\assets\\img\\sponsors\\* dist\\assets\\img\\sponsors",
@@ -21,13 +23,19 @@
     "prod:copy-faq": "copy src\\faq\\index.html dist\\faq\\index.html",
     "prod:copy-examples": "copy src\\examples\\index.html dist\\examples\\index.html",
     "prod:copy-sponsors": "copy src\\our-sponsors\\index.html dist\\our-sponsors\\index.html",
-    "prod:copy-css": "type src\\assets\\css\\bootstrap\\bootstrap.css src\\assets\\css\\custom.css > dist\\assets\\css\\styles.css",
+	"prod:copy-header": "copy src\\includes\\header.html dist\\includes\\header.html",
+	"prod:copy-footer": "copy src\\includes\\footer.html dist\\includes\\footer.html",
+    "prod:copy-css": "type src\\assets\\css\\bootstrap\\bootstrap.css src\\assets\\css\\custom.css > dist\\assets\\css\\styles.css",	
+	"prod:copy-js-require": "copy src\\assets\\js\\plugins\\load-dev.js dist\\assets\\js\\plugins\\load-dev.js",
+	"prod:concat-js": "browserify src/assets/js/scripts.js > dist/assets/js/bundle.js",
     "prod:copy-data": "copy src\\data\\* dist\\data\\",
+	
     "============PROCESS CSS": "============",
     "prod:css-prefix": "postcss dist\\assets\\css\\styles.css -u autoprefixer -b \">1% in US, ie>=10\" -o dist\\assets\\css\\styles.css",
     "prod:css-clean": "cleancss -o dist\\assets\\css\\styles.css dist\\assets\\css\\styles.css",
+	
     "============PROCESS JS": "============",
-    "prod:uglify-js": "uglifyjs src/assets/js/scripts.js --compress --mangle --output dist/assets/js/scripts.js",
+    "prod:uglify-js": "uglifyjs dist/assets/js/bundle.js --compress --mangle --output dist/assets/js/scripts.js",
     "prod:server": "live-server dist --port=8088 --browser=CHROME",
     "test": "echo \"No test specified\" && npm run lint && exit 0",
     "lint": "jshint src/assets/js/custom.js || exit 0"

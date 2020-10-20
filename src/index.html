@@ -18,38 +18,7 @@
   
     <!-- HEADER -->
   
-    <header class="fixed-top flex-column flex-md-row align-items-center p-0 px-md-4 mb-0 bg-white border-bottom box-shadow">
-      <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand" href="http://www.klrn.org/home/"><img id="logo_klrn" src="assets/img/logo-klrn.png"></a>
-          
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav ml-auto">
-              <li id="home" class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-              </li>
-              <li id="faq" class="nav-item">
-                <a class="nav-link" href="faq">FAQ</a>
-              </li>
-              <li id="examples" class="nav-item">
-                <a class="nav-link" href="examples">Examples</a>
-              </li>
-              <li id="media-kit" class="nav-item">
-                <a class="nav-link" href="downloads/2019-KLRN-Media-Kit.pdf">Media Kit</a>
-              </li>  
-              <li id="sponsors" class="nav-item">
-                <a class="nav-link" href="our-sponsors">Our Sponsors</a>
-              </li>              
-            </ul>
-            <a href="#footer" id="become_sponsor" class="scroll btn btn-primary">Become a Sponsor</a>
-          </div>
-        </nav>
-      </div>  
-    </header>
+    <div klrn-include-html="/includes/header.html"></div>
     
     <!-- HERO -->
     
@@ -189,51 +158,12 @@
       </div>
     </div><!-- audience carousel -->  
 
-    <!-- CONTACT FORM -->
-    
-    <footer id="footer"> 
-    
-      <div class="container text-center">
-        <h1 class="display-5">Become a Sponsor</h1>
-        <p class="lead">KLRN can tailor a package to fit your marketing needs. Whether it's on-air messaging, event sponsorship, or something in between, we'll find a way for you to connect with our viewers.</p>
-        <p>
-          <span class="lead">(210) 270-9000</span>   
-          <!--<span class="lead">Valerie Darling</span><br>
-          Sales & Marketing Manager, Institutional Advancement<br>
-          vdarling@klrn.org<br>-->
-        </p>
-      </div>  
-
-      <img  src="assets/img/loader.svg" id="submit_loader" class="loader d-none">      
-  
-      <form id="contact_us">
-        <div class="form-group">
-          <label for="first_name">Name</label>
-          <input type="text" class="form-control" name="first_name" placeholder="Name">
-        </div>        
-        <div class="form-group last_name">
-          <label for="last_name">Last Name</label>
-          <input type="text" class="form-control" name="last_name" placeholder="Last Name">
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" name="email" placeholder="Email">
-        </div>
-        <div class="form-group">
-          <label for="verify">Verify email</label>
-          <input type="email" class="form-control" name="verify" placeholder="Verify email">
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
-        </div>        
-        <button id="contact_us_submit" type="submit" class="ghost btn btn-primary">Submit</button>
-      </form> 
-    </footer>
+    <div klrn-include-html="/includes/footer.html"></div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/scripts.js"></script>
+	<script src="/assets/js/plugins/load-dev.js"></script><!-- This is only for dev environment -->
+    <script src="/assets/js/scripts.js"></script>
   </body>
 </html>
