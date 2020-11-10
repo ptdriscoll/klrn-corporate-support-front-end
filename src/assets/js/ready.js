@@ -30,13 +30,13 @@
   }
   
   //load and parse sponsors.csv to set cards on Our Sponsor page
-  if (page == 'our-sponsors') { 
+  if (page == 'our-sponsors' || page == 'our-sponsors-update') { 
     klrn.loadSponsors();  
   }   
 
   //remove active classes in nav when needed
   var removeActive = function () {
-    $('#navbar .active').removeClass('active');
+	$('a[href$="#footer"].active').removeClass('active');
   }
   
   //set actions based on elements in viewport 
@@ -59,7 +59,6 @@
     } 
     else {
       removeActive();
-      $('#' + page).addClass('active');
     }    
   });
   

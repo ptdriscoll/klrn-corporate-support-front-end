@@ -4,19 +4,55 @@ klrn.parseSponsorsCSV = function(csvData) {
   
   var data = klrn.parseCSV(csvData); 
   var target = document.querySelector('#sponsor_cards'); 
-  var fragment = document.createDocumentFragment() //add everything to this, then make 1 insertion
+  var fragment = document.createDocumentFragment(); //add everything to this, then make 1 insertion  
   var i, mainDiv, innerDiv, imgLink, img, graph;
+  var pTag, spanTagName, aTag, spanTagType;
+  var level = 0; subheads = ['','Great Performer - $500',
+                             'SuperNOVA - $1,500',
+							 'American Master - $2,500'];
+  var subheadsClasses = ['','great_performer',
+                         'supernova',
+						 'american_master'];							 
   
   if (!target) return;
   //console.log(data);
   
-  for (i=0;i<data.length;i++) {
-    if (data[i].SPONSOR === '' || data[i].SPONSOR_TYPE === '' || 
-        data[i].PROGRAMMING === '' || data[i].LOGO === '') {
-      continue;
-    }
-    
-    //create elements
+  //sort data by levels
+  data.sort(function(a,b){return b.CATEGORY-a.CATEGORY});  
+  
+  var createSubhead = function(level) {	  
+	subhead = document.createElement('h3');
+	subhead.className = subheadsClasses[level];
+	subheadText = document.createTextNode(subheads[level]);
+	subhead.appendChild(subheadText);
+	fragment.appendChild(subhead);	  
+  }
+  
+  var createSponsorLink = function(i) {
+	pTag = document.createElement('p');
+	pTag.className = 'col-lg-6 col-12';
+	spanTagName = document.createElement('span');
+	spanTagName.className = 'lead'; 
+    spanTagName.appendChild(document.createTextNode(data[i].SPONSOR));	
+	if (data[i].LINK) {
+	  aTag = document.createElement('a');
+      aTag.href = data[i].LINK;
+      aTag.setAttribute('target', '_blank');  
+      aTag.appendChild(spanTagName);
+	  pTag.appendChild(aTag);  
+	}
+	else pTag.appendChild(spanTagName);	
+    pTag.append(document.createElement('br'));
+	spanTagType = document.createElement('span');
+	spanTagType.className = 'sponsor_type';
+	spanTagType.append(document.createTextNode(data[i].SPONSOR_TYPE + ': '));
+	pTag.appendChild(spanTagType);
+    pTag.append(data[i].PROGRAMMING);	
+	fragment.appendChild(pTag); 
+  }	  
+  
+  var createCard = function(i) {
+	//create elements
     mainDiv = document.createElement('div');
     mainDiv.className = 'col-lg-2 col-md-3 col-sm-4 col-6';
     
@@ -52,7 +88,30 @@ klrn.parseSponsorsCSV = function(csvData) {
     //attach to dom fragment that will be inserted
     fragment.appendChild(mainDiv);
   }
-
+  
+  //driver loop to put elements together
+  for (i=0;i<data.length;i++) {
+    if (data[i].SPONSOR === '' || data[i].SPONSOR_TYPE === '' || 
+        data[i].PROGRAMMING === '' || data[i].LOGO === '' || 
+		data[i].GIVING_STATUS_CURRENT.toLowerCase() !== 'y') {
+      continue;
+    }
+	
+	//level subheads
+	if (parseInt(data[i].CATEGORY) !== level) {
+		level = parseInt(data[i].CATEGORY);
+		createSubhead(level);
+	}
+    
+	//level 2 and 3 sponsors	
+    if (parseInt(data[i].CATEGORY) > 1) {
+  	    createCard(i);
+  	}
+	
+	//level 1 sponsors
+	else createSponsorLink(i);	
+  }
+  
   //insert all cards 
   target.appendChild(fragment);     
 }
