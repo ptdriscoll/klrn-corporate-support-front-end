@@ -33807,18 +33807,18 @@ klrn.parseSponsorsCSV = function(csvData) {
   var fragment = document.createDocumentFragment(); //add everything to this, then make 1 insertion  
   var i, mainDiv, innerDiv, imgLink, img, graph;
   var pTag, spanTagName, aTag, spanTagType;
-  var level = 0; subheads = ['','Great Performer - $500',
+  var level = 0; subheads = ['','American Master - $2,500',
                              'SuperNOVA - $1,500',
-							 'American Master - $2,500'];
-  var subheadsClasses = ['','great_performer',
+							 'Great Performer - $500'];
+  var subheadsClasses = ['','american_master',
                          'supernova',
-						 'american_master'];							 
+						 'great_performer'];							 
   
   if (!target) return;
   //console.log(data);
   
   //sort data by levels
-  data.sort(function(a,b){return b.CATEGORY-a.CATEGORY});  
+  data.sort(function(a,b){return a.CATEGORY-b.CATEGORY});  
   
   var createSubhead = function(level) {	  
 	subhead = document.createElement('h3');
@@ -33830,7 +33830,7 @@ klrn.parseSponsorsCSV = function(csvData) {
   
   var createSponsorLink = function(i) {
 	pTag = document.createElement('p');
-	pTag.className = 'col-lg-6 col-12';
+	pTag.className = 'col-lg-4 col-12';
 	spanTagName = document.createElement('span');
 	spanTagName.className = 'lead'; 
     spanTagName.appendChild(document.createTextNode(data[i].SPONSOR));	
@@ -33892,7 +33892,7 @@ klrn.parseSponsorsCSV = function(csvData) {
   //driver loop to put elements together
   for (i=0;i<data.length;i++) {
     if (data[i].SPONSOR === '' || data[i].SPONSOR_TYPE === '' || 
-        data[i].PROGRAMMING === '' || data[i].LOGO === '' || 
+        data[i].PROGRAMMING === '' || 
 		data[i].GIVING_STATUS_CURRENT.toLowerCase() !== 'y') {
       continue;
     }
@@ -33903,8 +33903,8 @@ klrn.parseSponsorsCSV = function(csvData) {
 		createSubhead(level);
 	}
     
-	//level 2 and 3 sponsors	
-    if (parseInt(data[i].CATEGORY) > 1) {
+	//level 1 and 2 sponsors	
+    if (parseInt(data[i].CATEGORY) < 3) {
   	    createCard(i);
   	}
 	
