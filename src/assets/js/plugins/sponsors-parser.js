@@ -9,10 +9,12 @@ klrn.parseSponsorsCSV = function(csvData) {
   var pTag, spanTagName, aTag, spanTagType;
   var level = 0; subheads = ['','American Master - $2,500',
                              'SuperNOVA - $1,500',
-							 'Great Performer - $500'];
+							 'Great Performer - $500',
+							 'Media Trade'];
   var subheadsClasses = ['','american_master',
                          'supernova',
-						 'great_performer'];							 
+						 'great_performer',
+						 'media_trade'];							 
   
   if (!target) return;
   //console.log(data);
@@ -92,8 +94,7 @@ klrn.parseSponsorsCSV = function(csvData) {
   //driver loop to put elements together
   for (i=0;i<data.length;i++) {
     if (data[i].SPONSOR === '' || data[i].SPONSOR_TYPE === '' || 
-        data[i].PROGRAMMING === '' || 
-		data[i].GIVING_STATUS_CURRENT.toLowerCase() !== 'y') {
+        data[i].PROGRAMMING === '') {
       continue;
     }
 	

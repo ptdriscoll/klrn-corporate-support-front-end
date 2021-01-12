@@ -26,7 +26,7 @@ klrn.youtubeVideos = {
     //when a video plays, make sure any others pause
     if (e.data == YT.PlayerState.PLAYING) {
       for (i=0;i<klrn.youtubeVideos.getObjects.length;i++) {         
-        if (klrn.youtubeVideos.getObjects[i].a.id === e.target.a.id) continue;      
+        if (klrn.youtubeVideos.getObjects[i].h.id === e.target.h.id) continue;      
         klrn.youtubeVideos.getObjects[i].pauseVideo();
       }
     }  

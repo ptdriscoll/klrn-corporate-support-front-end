@@ -8,7 +8,7 @@
     "============DEV SETUP - npm start": "============",
     "start": "npm-run-all dev:*",
     "dev:concat-js": "browserify src/assets/js/libs/get-load.js > src/assets/js/libs/load.js",
-    "dev:server": "live-server src --port=8080 --browser=CHROME",
+    "dev:server": "live-server src --port=8080 --browser=CHROME --host=localhost",
 	
     "============BUILD SETUP - npm run build": "============",
     "build": "npm-run-all prod:*",
@@ -38,7 +38,7 @@
 	
     "============PROCESS JS": "============",
     "prod:uglify-js": "uglifyjs dist/assets/js/bundle.js --compress --mangle --output dist/assets/js/scripts.js",
-    "prod:server": "live-server dist --port=8088 --browser=CHROME",
+    "prod:server": "live-server dist --port=8088 --browser=CHROME --host=localhost",
     "test": "echo \"No test specified\" && npm run lint && exit 0",
     "lint": "jshint src/assets/js/custom.js || exit 0"
 	

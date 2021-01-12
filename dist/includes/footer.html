@@ -7,8 +7,8 @@
         <p class="lead">KLRN can tailor a package to fit your marketing needs. Whether it's on-air messaging, event sponsorship, or something in between, we'll find a way for you to connect with our viewers.</p>
         <p>
           <!--<span class="lead">(210) 270-9000</span>-->   
-          <span class="lead">Melissa May</span><br>
-          Corporate Relations Manager<br>
+          <span class="lead">Melissa May, APR</span><br>
+          Corporate Relations<br>
 		  (210) 208-8403<br>
           mmay@klrn.org<br>
         </p>
