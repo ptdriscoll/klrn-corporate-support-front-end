@@ -33894,7 +33894,8 @@ klrn.parseSponsorsCSV = function(csvData) {
   //driver loop to put elements together
   for (i=0;i<data.length;i++) {
     if (data[i].SPONSOR === '' || data[i].SPONSOR_TYPE === '' || 
-        data[i].PROGRAMMING === '') {
+        data[i].PROGRAMMING === '' || 
+		data[i].DISPLAY.trim().toLowerCase() !== 'y') {
       continue;
     }
 	
