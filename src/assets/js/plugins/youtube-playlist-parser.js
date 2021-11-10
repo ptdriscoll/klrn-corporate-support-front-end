@@ -102,8 +102,8 @@ klrn.loadVideo = function(videoID) {
 klrn.parseYoutubePlaylist = function(data, carousel) {
   
   //prep variables for parsing and dom insertion
-  var target = document.querySelector(carousel + ' .carousel-item.active'), i; 
-  var thePlayer, listID, imgUrl, videoTitle;
+  var target = document.querySelector(carousel + ' .carousel-item.active');
+  var i, thePlayer, listID, imgUrl, videoTitle;
   var shorterTitle, cleanShorterTitle, newTitle;
   var carouselControls = document.querySelectorAll(
     '.carousel-control-prev, .carousel-control-next');
@@ -141,7 +141,7 @@ klrn.parseYoutubePlaylist = function(data, carousel) {
   
   //set dom elements for each video 
   for (i = 0; i < data.items.length; i++) {
-    if (!data.items[i].snippet.thumbnails) continue;
+    if (!data.items[i].snippet.thumbnails.high) continue;
     imgUrl = data.items[i].snippet.thumbnails.high.url;
     videoID = data.items[i].snippet.resourceId.videoId;
     //videoTitle = trimTitle(data.items[i].snippet.title);

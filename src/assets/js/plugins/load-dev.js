@@ -16,7 +16,7 @@
 // Adapted from https://www.w3schools.com/howto/howto_html_include.asp
 (function() {
 	//use only in npm environment
-	if (location.port !== '8080' && location.port !== '8088') return;
+	if (location.port !== '8081' && location.port !== '8088') return;
 	
     var elems, elem, i, file, xhttp;
     var fragment = document.createDocumentFragment();

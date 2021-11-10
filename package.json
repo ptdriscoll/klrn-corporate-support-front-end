@@ -7,7 +7,7 @@
       "============DEV SETUP - npm start": "============",
       "start": "npm-run-all dev:*",
       "dev:concat-js": "browserify src/assets/js/libs/get-load.js > src/assets/js/libs/load.js",
-      "dev:server": "live-server src --port=8080 --browser=CHROME --host=localhost",
+      "dev:server": "live-server src --port=8081 --browser=CHROME --host=localhost",
       "============BUILD SETUP - npm run build": "============",
       "build": "npm-run-all prod:*",
       "prod:setup": "mkdirp dist/assets/css dist/assets/img dist/assets/img/sponsors dist/assets/js dist/assets/js/plugins",
